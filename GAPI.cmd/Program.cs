@@ -11,6 +11,7 @@ namespace GAPI.cmd
     {
         static void Main(string[] args)
         {
+            var imageFiles = new List<string>();
             var preffix="";
             var files = new GDriveApi().GetImages("__dev").OrderByDescending(f=>f.MimeType).ThenBy(f=>f.Name);
             foreach (var file in files)
@@ -19,8 +20,28 @@ namespace GAPI.cmd
                     preffix = "[folder]";
                 else
                     preffix = "[file]";
-                Console.WriteLine($"{preffix}:{file.Name}->{file.Parents?[0]} ({file.MimeType})");
+                Console.WriteLine($"{preffix}:{file.Name}->{file.Parents?[0]} ({file.MimeType})\r\n{file.WebViewLink}\r\n{file.WebContentLink}\r\n");
+                imageFiles.Add(file.WebViewLink);
             }
+            
+
+            var gdocs = new GDocApi();
+
+            var fileId = "1ZNBNn_R36A8Hn9XQTLmeEI-QkOXbxBUxkXa4bLQg3EE";
+
+            var doc = gdocs.GetDoc(fileId);
+
+            Console.WriteLine($"{doc.Title}");
+
+            foreach(var image in imageFiles)
+            {
+                gdocs.InsertImage(fileId, image);
+            }
+            
+
+            //gdocs.CreateDoc("test");
+            
+
 
 
         }

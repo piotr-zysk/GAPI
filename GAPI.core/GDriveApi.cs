@@ -25,7 +25,7 @@ namespace GAPI.core
             UserCredential credential;
 
             using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                new FileStream("client.json", FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
@@ -59,6 +59,7 @@ namespace GAPI.core
                 files = listRequest.Execute().Files;
                 folderId = files[0].Id;
                 //Console.WriteLine($"{files[0].Name} -> {files[0].Id}");
+                
             }
                        
 
@@ -71,7 +72,7 @@ namespace GAPI.core
             //Console.WriteLine(listRequest.Q);
 
             listRequest.PageSize = 1000;
-            listRequest.Fields = "nextPageToken, files(id, name, parents, mimeType)";
+            listRequest.Fields = "nextPageToken, files(id, name, parents, mimeType, webViewLink, webContentLink, exportLinks)";
 
             //var folderId = "1KuRFKAulaDQETlf_o_55lSgNgWJb7hyY";
 
